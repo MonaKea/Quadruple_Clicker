@@ -1,0 +1,110 @@
+var counterRect1 = 0;
+function incrementRect1(e){
+    var x = e.clientX;
+    var y = e.clientY;
+    if (x > 50 && x < 150 && y > 70 && y < 170){
+        counterRect1++;
+        redraw();
+    }
+}
+
+var counterRect2 = 0;
+function incrementRect2(e){
+    var x = e.clientX;
+    var y = e.clientY;
+    if (x > 350 && x < 450 && y > 70 && y < 170){
+        counterRect2++;
+        redraw();
+    }
+}
+
+var counterCir1 = 0;
+function incrementCir1(e){
+    var x = 250 - e.clientX;
+    var y = 115 - e.clientY;
+    var dist = Math.sqrt(y*y + x*x);
+    if (dist<50){
+        counterCir1++;
+        redraw();
+    }
+}
+
+var counterCir2 = 0;
+function incrementCir2(e){
+    var x = 550 - e.clientX;
+    var y = 115 - e.clientY;
+    var dist = Math.sqrt(y*y + x*x);
+    if (dist<50){
+        counterCir2++;
+        redraw();
+    }
+}
+
+var counterTotal = 0;
+function incrementTotal (){
+    if (counterRect1 || counterRect2 || counterCir1 || counterCir2 > 0) {
+        counterTotal = counterRect1 + counterRect2 + counterCir1 + counterCir2;
+        redraw();
+    }
+}
+
+
+var canvas = document.getElementById('canvas');
+
+canvas.addEventListener('click', incrementRect1);
+canvas.addEventListener('click', incrementRect2);
+canvas.addEventListener('click', incrementCir1);
+canvas.addEventListener('click', incrementCir2);
+incrementTotal();
+
+var ctx = canvas.getContext("2d");
+
+ctx.font = "20px Verdana";
+ctx.fillText("Сумма кликов: " + counterTotal, 250, 250);
+
+
+function redrawRect1 () {
+    ctx.strokeRect(50, 70, 100, 100);
+    ctx.font = "20px Verdana";
+    ctx.fillText("Клики: " + counterRect1, 53, 220);
+}
+
+
+
+function redrawRect2 () {
+    ctx.strokeRect(350, 70, 100, 100);
+    ctx.font = "20px Verdana";
+    ctx.fillText("Клики: " + counterRect2, 355, 220);
+}
+
+
+function redrawCir1() {
+    ctx.beginPath();
+    ctx.arc(250, 115, 50, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.font = "20px Verdana";
+    ctx.fillText("Клики: " + counterCir1, 200, 220);
+
+}
+
+
+function redrawCir2() {
+    ctx.beginPath();
+    ctx.arc(550, 115, 50, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.font = "20px Verdana";
+    ctx.fillText("Клики: " + counterCir2, 500, 220);
+
+}
+
+function redraw() {
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    redrawRect1();
+    redrawRect2();
+    redrawCir1();
+    redrawCir2();
+}
+
+redraw();
+
+
